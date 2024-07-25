@@ -7,6 +7,7 @@ on:
       - "main"
       - "rahul-testing"
       - "master"
+      - "baba"
 
 jobs:
   test:
