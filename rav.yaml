@@ -1,0 +1,19 @@
+scripts:
+  runserver: uvicorn src.main:app --port 8081 --reload
+  installs: pip install -r requirements.txt
+  test_exec: pytest src/tests.py
+  build: docker build -t serverless-py .
+  empty-build: docker build -f Dockerfile.empty -t empty-py .
+  docker-run: docker run --env-file .env-prod -p 1356:8082 serverless-py
+  empty-run: docker run -p 1234:8081 -it empty-py
+  push: docker push
+  configure:
+    - gcloud auth configure-docker us-central1-docker.pkg.dev 
+    - gcloud artifacts repositories create serverless-py-repo --repository-format=docker --location=us-central1
+  push:
+    - docker build -f Dockerfile -t serverless-py-amd64 .
+    - docker tag serverless-py-amd64 us-central1-docker.pkg.dev/cfe-serverless-py-2024-430008/serverless-py-repo/serverless-py:latest
+    - docker push us-central1-docker.pkg.dev/cfe-serverless-py-2024-430008/serverless-py-repo/serverless-py
+    --all-tags
+
+
