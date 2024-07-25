@@ -7,5 +7,4 @@ MODE=config("MODE", default="testing")
 
 @app.get("/")
 def home_page():
-    print("Rahul")
     return {"message":"Demo","mode":MODE}
